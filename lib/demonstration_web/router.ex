@@ -20,8 +20,11 @@ defmodule DemonstrationWeb.Router do
     pipe_through(:browser)
 
     get("/", PageController, :home)
+
     live("/infinite-scroll", InfiniteScrollLive, :infinte_scroll)
+    live("/copy-to-clipboard", CopyToClipboardLive, :copy_to_clipboard)
     live_dashboard("/dashboard", metrics: DemonstrationWeb.Telemetry)
+
     get("/*path", PageController, :not_found)
   end
 
