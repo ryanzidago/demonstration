@@ -22,6 +22,7 @@ defmodule DemonstrationWeb.Router do
     get("/", PageController, :home)
     live("/infinite-scroll", InfiniteScrollLive, :infinte_scroll)
     live_dashboard("/dashboard", metrics: DemonstrationWeb.Telemetry)
+    get("/*path", PageController, :not_found)
   end
 
   # Other scopes may use custom stacks.
