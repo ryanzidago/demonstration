@@ -24,7 +24,7 @@ export default InfiniteScroll = {
     this.observer.observe(this.el);
   },
   destroyed() {
-    this.observer.unobserver(this.el);
+    this.observer.unobserve(this.el);
   },
   updated() {
     this.pending = this.page();

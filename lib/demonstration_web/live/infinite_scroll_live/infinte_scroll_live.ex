@@ -17,7 +17,7 @@ defmodule DemonstrationWeb.InfiniteScrollLive do
   def render(assigns) do
     ~H"""
     <section class="my-4">
-      <GalleryComponent.render id="infinite-gallery-home" images={@images} page={@page} />
+      <GalleryComponent.render images={@images} page={@page} />
     </section>
     """
   end
@@ -34,6 +34,10 @@ defmodule DemonstrationWeb.InfiniteScrollLive do
 
   defp images do
     ~W(
+      https://images.unsplash.com/photo-1682406826663-1b26f0483be4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxODZ8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60
+      https://images.unsplash.com/photo-1682588942214-10758e7313ee?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxNjJ8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60
+      https://images.unsplash.com/photo-1682258688478-d223821e7b01?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxNDV8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60
+      https://images.unsplash.com/photo-1682533945500-9e7012432f75?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxMzJ8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60
       https://images.unsplash.com/photo-1682613375621-c10d167c852e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxMTd8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60
       https://images.unsplash.com/photo-1682641188629-43e045412762?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5OHx8fGVufDB8fHx8&auto=format&fit=crop&w=900&q=60
       https://images.unsplash.com/photo-1682371788431-e2bf837f868e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw3OHx8fGVufDB8fHx8&auto=format&fit=crop&w=900&q=60
