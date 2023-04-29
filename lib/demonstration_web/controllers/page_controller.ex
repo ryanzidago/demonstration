@@ -7,5 +7,9 @@ defmodule DemonstrationWeb.PageController do
     render(conn, :home, layout: false)
   end
 
-  def not_found(conn, _params), do: render(conn, :not_found, layout: false)
+  def not_found(conn, _params) do
+    conn
+    |> put_status(:not_found)
+    |> render(:not_found, layout: false)
+  end
 end
