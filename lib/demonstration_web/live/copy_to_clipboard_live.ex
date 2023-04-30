@@ -4,6 +4,8 @@ defmodule DemonstrationWeb.CopyToClipboardLive do
   """
   use DemonstrationWeb, :live_view
 
+  alias Phoenix.LiveView.JS
+
   @impl true
   def mount(_params, _session, socket) do
     {:ok, socket}
@@ -14,41 +16,45 @@ defmodule DemonstrationWeb.CopyToClipboardLive do
     ~H"""
     <div class="flex flex-col space-y-8">
       <div class="flex flex-col items-center">
-        <p class="text-white">Event Listener</p>
-        <button
-          phx-click={JS.dispatch("phx:copy", to: "#control-codes")}
-          class="bg-rose-200 border-0 rounded-md w-1/2 flex flex-row items-center"
-        >
+        <label class="text-white">JS Event Listener</label>
+        <div class="w-1/2 rounded-md bg-white flex">
           <input
-            type="text"
             id="control-codes"
-            value="12345#qwerty"
-            class="border-0 rounded-l-md bg-cyan-400"
-          />
-          <span class="w-full"> 📋 </span>
-        </button>
-      </div>
-
-      <div class="flex flex-col items-center">
-        <p class="text-white">Client Hook</p>
-        <button
-          id="copy-to-clipboard"
-          data-to="#control-codes-hook"
-          phx-hook="CopyToClipboard"
-          class="bg-rose-200 border-0 rounded-md w-1/2 flex flex-row items-center"
-        >
-          <input
             type="text"
-            id="control-codes-hook"
-            value="67890#asdfgh"
-            class="border-0 rounded-l-md bg-cyan-400"
+            value="12345#qwerty"
+            class="border-0 bg-cyan-400 rounded-l-md"
           />
-          <span class="w-full"> 📋 </span>
-        </button>
+          <button
+            phx-click={JS.dispatch("phx:copy", to: "#control-codes")}
+            class="bg-rose-200 rounded-r-md w-full"
+          >
+            <span> 📋 </span>
+          </button>
+        </div>
       </div>
 
       <div class="flex flex-col items-center">
-        <p class="text-white">Try me out here!</p>
+        <label class="text-white">JS Hook</label>
+        <div class="w-1/2 rounded-md bg-white flex">
+          <input
+            id="control-codes-hook"
+            type="text"
+            value="67890#asdfgh"
+            class="border-0 bg-cyan-400 rounded-l-md"
+          />
+          <button
+            id="copy-to-clipboard-hook"
+            data-to="#control-codes-hook"
+            phx-hook="CopyToClipboard"
+            class="bg-rose-200 rounded-r-md w-full"
+          >
+            <span> 📋 </span>
+          </button>
+        </div>
+      </div>
+
+      <div class="flex flex-col items-center">
+        <label class="text-white">Try me out here!</label>
         <input type="text" class="border-0 bg-cyan-400 rounded-md w-1/2" />
       </div>
     </div>
