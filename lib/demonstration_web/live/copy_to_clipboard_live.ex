@@ -55,7 +55,11 @@ defmodule DemonstrationWeb.CopyToClipboardLive do
 
       <div class="flex flex-col items-center">
         <label class="text-white">Try me out here!</label>
-        <input type="text" class="border-0 bg-cyan-400 rounded-md w-1/2" />
+        <input
+          type="text"
+          class="border-0 bg-cyan-400 rounded-md w-1/2"
+          placeholder="Paste from your clipboard right here"
+        />
       </div>
     </div>
     """
