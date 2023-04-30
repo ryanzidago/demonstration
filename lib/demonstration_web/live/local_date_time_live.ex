@@ -5,7 +5,7 @@ defmodule DemonstrationWeb.LocalDateTimeLive do
   use DemonstrationWeb, :live_view
 
   @impl true
-  def mount(_, _, socket) do
+  def mount(_params, _session, socket) do
     {:ok, socket}
   end
 
@@ -13,7 +13,7 @@ defmodule DemonstrationWeb.LocalDateTimeLive do
   def render(assigns) do
     ~H"""
     <div class="flex flex-col items-center">
-      <.local_time utc_date_time={DateTime.utc_now()} , id="user-local-time" />
+      <.local_time utc_date_time={DateTime.utc_now()} id="user-local-time" />
     </div>
     """
   end

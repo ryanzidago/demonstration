@@ -65,6 +65,7 @@ defmodule DemonstrationWeb.LoaderLive do
     {:noreply, socket}
   end
 
+  @impl true
   def handle_info(:load_data, socket) do
     :timer.sleep(3_000)
 
