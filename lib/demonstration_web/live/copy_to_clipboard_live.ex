@@ -22,11 +22,11 @@ defmodule DemonstrationWeb.CopyToClipboardLive do
             id="control-codes"
             type="text"
             value="12345#qwerty"
-            class="border-0 bg-cyan-400 rounded-l-md border-b-4 border-cyan-600 hover:ring-4 ring-cyan-200 focus:ring-cyan-200"
+            class="border-0 bg-cyan-400 rounded-l-md border-b-4 border-cyan-600 hover:ring-4 ring-cyan-200 focus:ring-cyan-200 dark:shadow-md dark:shadow-cyan-800/80"
           />
           <button
             phx-click={JS.dispatch("phx:copy", to: "#control-codes")}
-            class="bg-rose-200 rounded-r-md w-full hover:bg-rose-300 border-b-4 border-r-4 border-rose-400 hover:ring-4 ring-rose-200 focus:ring-rose-200"
+            class="bg-rose-200 rounded-r-md w-full hover:bg-rose-300 border-b-4 border-r-4 border-rose-400 hover:ring-4 ring-rose-200 focus:ring-rose-200 dark:shadow-md dark:shadow-pink-800/80"
           >
             <span> 📋 </span>
           </button>
@@ -40,13 +40,13 @@ defmodule DemonstrationWeb.CopyToClipboardLive do
             id="control-codes-hook"
             type="text"
             value="67890#asdfgh"
-            class="border-0 bg-cyan-400 rounded-l-md border-b-4 border-cyan-600 hover:ring-4 ring-cyan-200 focus:ring-cyan-200"
+            class="border-0 bg-cyan-400 rounded-l-md border-b-4 border-cyan-600 hover:ring-4 ring-cyan-200 focus:ring-cyan-200 dark:shadow-md dark:shadow-cyan-800/80"
           />
           <button
             id="copy-to-clipboard-hook"
             data-to="#control-codes-hook"
             phx-hook="CopyToClipboard"
-            class="bg-rose-200 rounded-r-md w-full hover:bg-rose-300 border-b-4 border-r-4 border-rose-400 hover:ring-4 ring-rose-200 focus:ring-rose-200"
+            class="bg-rose-200 rounded-r-md w-full hover:bg-rose-300 border-b-4 border-r-4 border-rose-400 hover:ring-4 ring-rose-200 focus:ring-rose-200 dark:shadow-md dark:shadow-pink-800/80"
           >
             <span> 📋 </span>
           </button>
@@ -57,7 +57,7 @@ defmodule DemonstrationWeb.CopyToClipboardLive do
         <label class="text-white mb-2">Try me out here!</label>
         <input
           type="text"
-          class="border-0 bg-cyan-400 border-b-4 border-r-4 border-cyan-600 hover:ring-4 ring-cyan-200 focus:ring-cyan-200 rounded-md w-1/2"
+          class="border-0 bg-cyan-400 border-b-4 border-r-4 border-cyan-600 hover:ring-4 ring-cyan-200 focus:ring-cyan-200 rounded-md w-1/2 dark:shadow-md dark:shadow-cyan-800/80"
           placeholder="Paste from your clipboard right here"
         />
       </div>
