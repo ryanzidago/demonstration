@@ -16,17 +16,17 @@ defmodule DemonstrationWeb.CopyToClipboardLive do
     ~H"""
     <div class="flex flex-col space-y-8">
       <div class="flex flex-col items-center">
-        <label class="text-white">JS Event Listener</label>
-        <div class="w-1/2 rounded-md bg-white flex">
+        <label class="text-white mb-2">JS Event Listener</label>
+        <div class="w-1/2 rounded-md bg-white flex ">
           <input
             id="control-codes"
             type="text"
             value="12345#qwerty"
-            class="border-0 bg-cyan-400 rounded-l-md"
+            class="border-0 bg-cyan-400 rounded-l-md border-b-4 border-cyan-600 hover:ring-4 ring-cyan-200 focus:ring-cyan-200"
           />
           <button
             phx-click={JS.dispatch("phx:copy", to: "#control-codes")}
-            class="bg-rose-200 rounded-r-md w-full"
+            class="bg-rose-200 rounded-r-md w-full hover:bg-rose-300 border-b-4 border-r-4 border-rose-400 hover:ring-4 ring-rose-200 focus:ring-rose-200"
           >
             <span> 📋 </span>
           </button>
@@ -34,19 +34,19 @@ defmodule DemonstrationWeb.CopyToClipboardLive do
       </div>
 
       <div class="flex flex-col items-center">
-        <label class="text-white">JS Hook</label>
+        <label class="text-white mb-2">JS Hook</label>
         <div class="w-1/2 rounded-md bg-white flex">
           <input
             id="control-codes-hook"
             type="text"
             value="67890#asdfgh"
-            class="border-0 bg-cyan-400 rounded-l-md"
+            class="border-0 bg-cyan-400 rounded-l-md border-b-4 border-cyan-600 hover:ring-4 ring-cyan-200 focus:ring-cyan-200"
           />
           <button
             id="copy-to-clipboard-hook"
             data-to="#control-codes-hook"
             phx-hook="CopyToClipboard"
-            class="bg-rose-200 rounded-r-md w-full"
+            class="bg-rose-200 rounded-r-md w-full hover:bg-rose-300 border-b-4 border-r-4 border-rose-400 hover:ring-4 ring-rose-200 focus:ring-rose-200"
           >
             <span> 📋 </span>
           </button>
@@ -54,10 +54,10 @@ defmodule DemonstrationWeb.CopyToClipboardLive do
       </div>
 
       <div class="flex flex-col items-center">
-        <label class="text-white">Try me out here!</label>
+        <label class="text-white mb-2">Try me out here!</label>
         <input
           type="text"
-          class="border-0 bg-cyan-400 rounded-md w-1/2"
+          class="border-0 bg-cyan-400 border-b-4 border-r-4 border-cyan-600 hover:ring-4 ring-cyan-200 focus:ring-cyan-200 rounded-md w-1/2"
           placeholder="Paste from your clipboard right here"
         />
       </div>
