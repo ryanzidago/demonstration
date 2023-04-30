@@ -21,8 +21,9 @@ defmodule DemonstrationWeb.Router do
 
     get("/", PageController, :home)
 
-    live("/infinite-scroll", InfiniteScrollLive, :infinte_scroll)
+    live("/infinite-scroll", InfiniteScrollLive, :infinite_scroll)
     live("/copy-to-clipboard", CopyToClipboardLive, :copy_to_clipboard)
+    live("/loader", LoaderLive, :loader)
 
     live_dashboard("/dashboard", metrics: DemonstrationWeb.Telemetry)
 
