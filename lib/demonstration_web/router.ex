@@ -25,6 +25,7 @@ defmodule DemonstrationWeb.Router do
     live("/copy-to-clipboard", CopyToClipboardLive, :copy_to_clipboard)
     live("/loader", LoaderLive, :loader)
     live("/local-date-time", LocalDateTimeLive, :local_datetime)
+    live("/user-agent", UserAgentLive, :user_agent)
 
     live_dashboard("/dashboard", metrics: DemonstrationWeb.Telemetry)
 
