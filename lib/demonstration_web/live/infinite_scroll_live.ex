@@ -16,7 +16,7 @@ defmodule DemonstrationWeb.InfiniteScrollLive do
   @impl true
   def render(assigns) do
     ~H"""
-    <section class="my-4">
+    <section class="my-24">
       <GalleryComponent.render images={@images} page={@page} />
     </section>
     """

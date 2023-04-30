@@ -13,7 +13,7 @@ defmodule DemonstrationWeb.Components.GalleryComponent do
           id={"image-#{random_id()}"}
           href={image}
           target="_blank"
-          class="cursor-pointer transform transition duration-1000 hover:scale-150 hover:z-10"
+          class="cursor-pointer duration-1000 hover:scale-150 hover:z-10"
         >
           <img src={image} />
         </a>
