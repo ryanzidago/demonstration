@@ -36,7 +36,7 @@ defmodule DemonstrationWeb.LoaderLive do
   defp loader(assigns) do
     ~H"""
     <div
-      class="hidden bg-inherit h-full bg-slate-100"
+      class="hidden bg-transparent h-full bg-slate-100"
       id={@id}
       data-toggle-loader={toggle_loader("loader")}
     >
