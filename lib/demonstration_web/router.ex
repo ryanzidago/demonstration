@@ -24,6 +24,7 @@ defmodule DemonstrationWeb.Router do
     live("/infinite-scroll", InfiniteScrollLive, :infinite_scroll)
     live("/copy-to-clipboard", CopyToClipboardLive, :copy_to_clipboard)
     live("/loader", LoaderLive, :loader)
+    live("/local-date-time", LocalDateTimeLive, :local_datetime)
 
     live_dashboard("/dashboard", metrics: DemonstrationWeb.Telemetry)
 
