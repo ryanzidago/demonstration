@@ -15,6 +15,7 @@ defmodule DemonstrationWeb.TailwindCSSLive do
     <div class="flex flex-col items-center space-y-28">
       <.list_1 />
       <.table_1 />
+      <.form_1 />
     </div>
     """
   end
@@ -150,6 +151,23 @@ defmodule DemonstrationWeb.TailwindCSSLive do
         </tr>
       </tbody>
     </table>
+    """
+  end
+
+  def form_1(assigns) do
+    ~H"""
+    <form class="bg-slate-50 px-8 pt-8 pb-4 rounded-sm">
+      <label class="flex flex-col text-slate-600 gap-2">
+        <span class="text-slate-800 drop-shadow-sm">Email</span>
+        <input
+          type="email"
+          class="text-slate-800 peer border border-slate-200 drop-shadow-sm rounded-md "
+        />
+        <p class="invisible peer-invalid:visible text-sm text-pink-600">
+          Please provide a valid email address
+        </p>
+      </label>
+    </form>
     """
   end
 end
