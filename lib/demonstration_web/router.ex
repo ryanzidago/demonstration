@@ -26,6 +26,7 @@ defmodule DemonstrationWeb.Router do
     live("/loader", LoaderLive, :loader)
     live("/local-date-time", LocalDateTimeLive, :local_datetime)
     live("/user-agent", UserAgentLive, :user_agent)
+    live("/tailwind-css", TailwindCSSLive, :tailwind_css)
 
     live_dashboard("/dashboard", metrics: DemonstrationWeb.Telemetry)
 
