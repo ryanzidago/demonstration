@@ -16,6 +16,7 @@ defmodule DemonstrationWeb.TailwindCSSLive do
       <.list_1 />
       <.table_1 />
       <.form_1 />
+      <.button_1 />
     </div>
     """
   end
@@ -168,6 +169,45 @@ defmodule DemonstrationWeb.TailwindCSSLive do
         </p>
       </label>
     </form>
+    """
+  end
+
+  def button_1(assigns) do
+    ~H"""
+    <a
+      href="#"
+      target="_blank"
+      class="group bg-slate-50 hover:bg-sky-500 p-6 rounded-md max-w-xs mx-auto hover:ring-2 hover:ring-sky-600 duration-200"
+    >
+      <div class="flex items-center gap-3">
+        <svg
+          class="h-6 w-6 stroke-sky-500 group-hover:stroke-slate-50"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M11 19H6.931A1.922 1.922 0 015 17.087V8h12.069C18.135 8 19 8.857 19 9.913V11"
+          >
+          </path>
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M14 7.64L13.042 6c-.36-.616-1.053-1-1.806-1H7.057C5.921 5 5 5.86 5 6.92V11M17 15v4M19 17h-4"
+          >
+          </path>
+        </svg>
+        <h3 class="text-slate-900 text-sm font-semibold group-hover:text-slate-50">
+          New Project
+        </h3>
+      </div>
+      <p class="text-slate-500 text-sm mt-2 group-hover:text-slate-50">
+        Create a new project from a variety of starting templates.
+      </p>
+    </a>
     """
   end
 end
