@@ -17,6 +17,7 @@ defmodule DemonstrationWeb.TailwindCSSLive do
       <.table_1 />
       <.form_1 />
       <.button_1 />
+      <.fieldset_1 />
     </div>
     """
   end
@@ -208,6 +209,45 @@ defmodule DemonstrationWeb.TailwindCSSLive do
         Create a new project from a variety of starting templates.
       </p>
     </a>
+    """
+  end
+
+  def fieldset_1(assigns) do
+    # for <input>, only one element of the type `radio` can be checked for the same name
+    ~H"""
+    <div class="bg-slate-50 w-[70%] p-4 rounded-md">
+      <fieldset class="flex items-center gap-2 space-y-4">
+        <legend class="mb-6 w-full border-b border-slate-200 pb-2 text-base font-semibold text-slate-500 drop-shadow-sm">
+          Published status
+        </legend>
+
+        <input
+          id="draft"
+          type="radio"
+          name="status"
+          class="appearance-none peer/draft border-1 border-slate-300 border focus:bg-sky-300 focus:ring-offset-slate-50 checked:bg-sky-300 drop-shadow-sm"
+        />
+        <label
+          for="draft"
+          class="font-sm text-slate-500 peer-checked/draft:text-sky-500 mr-2 drop-shadow-sm"
+        >
+          Draft
+        </label>
+
+        <input
+          id="published"
+          type="radio"
+          name="status"
+          class="appearance-none peer/published border-1 border-slate-300 focus:ring-sky-500 focus:ring-offset-slate-50 checked:bg-sky-300 drop-shadow-sm"
+        />
+        <label
+          for="published"
+          class="font-sm text-slate-500 peer-checked/published:text-sky-500 drop-shadow-2xl drop-shadow-sm  "
+        >
+          Published
+        </label>
+      </fieldset>
+    </div>
     """
   end
 end
