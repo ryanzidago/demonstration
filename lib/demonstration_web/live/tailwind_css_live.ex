@@ -4,22 +4,83 @@ defmodule DemonstrationWeb.TailwindCSSLive do
   """
   use DemonstrationWeb, :live_view
 
+  @components [:list_1, :table_1, :form_1, :button_1, :fieldset_1]
+
   @impl true
   def mount(_params, _session, socket) do
+    socket = assign(socket, component: :list_1)
     {:ok, socket}
+  end
+
+  @impl true
+  def handle_params(params, _uri, socket) do
+    {:noreply, apply_action(socket, socket.assigns.live_action, params)}
+  end
+
+  defp apply_action(socket, _, params) do
+    component =
+      case params["component"] do
+        "list_1" -> :list_1
+        "table_1" -> :table_1
+        "form_1" -> :form_1
+        "button_1" -> :button_1
+        "fieldset_1" -> :fieldset_1
+        _ -> :list_1
+      end
+
+    assign(socket, component: component)
   end
 
   @impl true
   def render(assigns) do
     ~H"""
-    <div class="flex flex-col items-center space-y-28">
-      <.list_1 />
-      <.table_1 />
-      <.form_1 />
-      <.button_1 />
-      <.fieldset_1 />
+    <div class="relative">
+      <button
+        phx-click="previous"
+        class="fixed lg:top-20 md:top-4 lg:left-[20%] md:left-[35%] bg-sky-500 hover:bg-sky-600 py-2 px-4 rounded-full ont-sm text-slate-50 drop-shadow-lg duration-200 w-28"
+      >
+        Previous
+      </button>
+      <div class="flex items-center justify-center">
+        <.list_1 :if={@component == :list_1} />
+        <.table_1 :if={@component == :table_1} />
+        <.form_1 :if={@component == :form_1} />
+        <.button_1 :if={@component == :button_1} />
+        <.fieldset_1 :if={@component == :fieldset_1} />
+      </div>
+      <button
+        phx-click="next"
+        class="fixed lg:top-20 md:top-4 lg:right-[20%] md:right-[35%] bg-sky-500 hover:bg-sky-600  py-2 px-4 rounded-full ont-sm text-slate-50 drop-shadow-lg duration-200 w-28"
+      >
+        Next
+      </button>
     </div>
     """
+  end
+
+  @impl true
+  def handle_event("previous", _params, socket) do
+    index = Enum.find_index(@components, &(&1 == socket.assigns.component))
+    component = Enum.at(@components, index - 1)
+
+    socket =
+      socket
+      |> assign(component: component)
+      |> push_patch(to: ~p{/tailwind-css?component=#{component}})
+
+    {:noreply, socket}
+  end
+
+  def handle_event("next", _params, socket) do
+    index = Enum.find_index(@components, &(&1 == socket.assigns.component))
+    component = Enum.at(@components, rem(index + 1, length(@components)))
+
+    socket =
+      socket
+      |> assign(component: component)
+      |> push_patch(to: ~p{/tailwind-css?component=#{component}})
+
+    {:noreply, socket}
   end
 
   def list_1(assigns) do
@@ -215,7 +276,7 @@ defmodule DemonstrationWeb.TailwindCSSLive do
   def fieldset_1(assigns) do
     # for <input>, only one element of the type `radio` can be checked for the same name
     ~H"""
-    <div class="bg-slate-50 w-[70%] p-4 rounded-md">
+    <div id="fieldset-1" class="bg-slate-50 w-[70%] p-4 rounded-md">
       <fieldset class="flex items-center gap-2 space-y-4">
         <legend class="mb-6 w-full border-b border-slate-200 pb-2 text-base font-semibold text-slate-500 drop-shadow-sm">
           Published status
