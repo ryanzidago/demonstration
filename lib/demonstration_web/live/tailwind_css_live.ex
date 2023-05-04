@@ -4,11 +4,11 @@ defmodule DemonstrationWeb.TailwindCSSLive do
   """
   use DemonstrationWeb, :live_view
 
-  @components [:list_1, :table_1, :form_1, :button_1, :fieldset_1]
+  @components ~w(list_1 table_1 form_1 button_1 fieldset_1)
 
   @impl true
   def mount(_params, _session, socket) do
-    socket = assign(socket, component: :list_1)
+    socket = assign(socket, component: "list_1")
     {:ok, socket}
   end
 
@@ -18,16 +18,8 @@ defmodule DemonstrationWeb.TailwindCSSLive do
   end
 
   defp apply_action(socket, _, params) do
-    component =
-      case params["component"] do
-        "list_1" -> :list_1
-        "table_1" -> :table_1
-        "form_1" -> :form_1
-        "button_1" -> :button_1
-        "fieldset_1" -> :fieldset_1
-        _ -> :list_1
-      end
-
+    component = Map.get(params, "component")
+    component = if component in @components, do: component, else: "list_1"
     assign(socket, component: component)
   end
 
@@ -41,12 +33,12 @@ defmodule DemonstrationWeb.TailwindCSSLive do
       >
         Previous
       </button>
-      <div class="flex items-center justify-center">
-        <.list_1 :if={@component == :list_1} />
-        <.table_1 :if={@component == :table_1} />
-        <.form_1 :if={@component == :form_1} />
-        <.button_1 :if={@component == :button_1} />
-        <.fieldset_1 :if={@component == :fieldset_1} />
+      <div class="flex flex-col items-center justify-center">
+        <.list_1 :if={@component == "list_1"} />
+        <.table_1 :if={@component == "table_1"} />
+        <.form_1 :if={@component == "form_1"} />
+        <.button_1 :if={@component == "button_1"} />
+        <.fieldset_1 :if={@component == "fieldset_1"} />
       </div>
       <button
         phx-click="next"
@@ -303,7 +295,7 @@ defmodule DemonstrationWeb.TailwindCSSLive do
         />
         <label
           for="published"
-          class="font-sm text-slate-500 peer-checked/published:text-sky-500 drop-shadow-2xl drop-shadow-sm  "
+          class="font-sm text-slate-500 peer-checked/published:text-sky-500 drop-shadow-sm  "
         >
           Published
         </label>
