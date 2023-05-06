@@ -106,7 +106,8 @@ defmodule DemonstrationWeb.Components.ListComponent do
                     phx-target={@myself}
                     phx-submit="rename_submit"
                     phx-change="rename_change"
-                    class="flex flex-row gap-4 items-center "
+                    phx-click-away="rename_form_click_away"
+                    class="flex flex-row gap-4 items-center cursor-text"
                   >
                     <.input
                       field={@rename_form["name"]}
@@ -200,6 +201,11 @@ defmodule DemonstrationWeb.Components.ListComponent do
 
   def handle_event("double_click", %{"id" => id}, socket) do
     socket = assign(socket, rename_item: id, rename_form: to_form(%{"name" => "", "id" => id}))
+    {:noreply, socket}
+  end
+
+  def handle_event("rename_form_click_away", _, socket) do
+    socket = assign(socket, rename_item: nil, rename_form: to_form(%{"name" => "", "id" => ""}))
     {:noreply, socket}
   end
 
