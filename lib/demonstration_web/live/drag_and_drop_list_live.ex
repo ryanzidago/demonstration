@@ -24,7 +24,7 @@ defmodule DemonstrationWeb.DragAndDropListLive do
     <div id="lists" class="">
       <.live_component
         form={%{"name" => ""}}
-        id="1"
+        id="shopping-list"
         module={ListComponent}
         list={@shopping_list}
         list_name="Shopping List"
@@ -32,6 +32,8 @@ defmodule DemonstrationWeb.DragAndDropListLive do
     </div>
     """
   end
+
+  def id, do: Enum.random(0..1_000_000)
 end
 
 defmodule DemonstrationWeb.Components.ListComponent do
@@ -77,6 +79,10 @@ defmodule DemonstrationWeb.Components.ListComponent do
           <div
             :for={item <- @list}
             id={"#{@id}-#{item.id}"}
+            phx-hook="DoubleClick"
+            data-item_id={item.id}
+            data-phx_event="double_click"
+            phx-target={@myself}
             class={[
               "rounded-md border-2 border-zinc-200 hover:bg-sky-500 cursor-pointer"
             ]}
@@ -97,7 +103,9 @@ defmodule DemonstrationWeb.Components.ListComponent do
                   ]}
                 />
               </button>
-              <div class="flex-auto block text-sm leading-6 text-zinc-900 ">
+              <div class={[
+                "flex-auto block text-sm leading-6 text-zinc-900"
+              ]}>
                 <%= item.name %>
               </div>
               <button type="button" class="w-10 -mt-1 flex none">
@@ -137,7 +145,7 @@ defmodule DemonstrationWeb.Components.ListComponent do
     socket =
       socket
       |> update(:list, fn list ->
-        [%{name: name, id: 6, position: 6, status: :in_progress} | list]
+        [%{name: name, id: id(), status: :in_progress} | list]
       end)
       |> assign(form: %{"name" => ""})
 
@@ -152,10 +160,16 @@ defmodule DemonstrationWeb.Components.ListComponent do
     {:noreply, socket}
   end
 
+  def handle_event("double_click", %{"id" => _id}, socket) do
+    {:noreply, socket}
+  end
+
   defp toggle_status(item) when is_map(item) do
     Map.update(item, :status, :in_progress, fn
       :in_progress -> :complete
       :complete -> :in_progress
     end)
   end
+
+  def id, do: Enum.random(0..1_000_000)
 end

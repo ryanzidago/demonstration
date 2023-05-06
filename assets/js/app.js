@@ -25,12 +25,13 @@ import InfiniteScroll from "./infinite_scroll";
 import CopyToClipboard from "./copy_to_clipboard";
 import LocalTime from "./local_time";
 import Sortable from "./sortable";
+import DoubleClick from "./double_click";
 
 let csrfToken = document
   .querySelector("meta[name='csrf-token']")
   .getAttribute("content");
 let liveSocket = new LiveSocket("/live", Socket, {
-  hooks: { InfiniteScroll, CopyToClipboard, LocalTime, Sortable },
+  hooks: { InfiniteScroll, CopyToClipboard, LocalTime, Sortable, DoubleClick },
   params: { _csrf_token: csrfToken },
 });
 
