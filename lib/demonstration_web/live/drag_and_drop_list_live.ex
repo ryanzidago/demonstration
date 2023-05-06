@@ -84,34 +84,32 @@ defmodule DemonstrationWeb.Components.ListComponent do
             data-phx_event="double_click"
             phx-target={@myself}
             class={[
-              "rounded-md border-2 border-zinc-200 hover:bg-sky-500 cursor-pointer"
+              "flex rounded-md border-2 border-zinc-200 hover:bg-sky-500 cursor-pointer"
             ]}
           >
-            <div class="flex">
-              <button
-                type="button"
-                phx-click="mark-as-complete"
-                phx-value-id={item.id}
-                phx-target={@myself}
-                class="w-10"
-              >
-                <.icon
-                  name="hero-check-circle"
-                  class={[
-                    "w-7 h-7",
-                    if(item.status == :complete, do: "bg-green-600", else: "bg-gray-300")
-                  ]}
-                />
-              </button>
-              <div class={[
-                "flex-auto block text-sm leading-6 text-zinc-900"
-              ]}>
-                <%= item.name %>
-              </div>
-              <button type="button" class="w-10 -mt-1 flex none">
-                <.icon name="hero-x-makr" />
-              </button>
+            <button
+              type="button"
+              phx-click="mark-as-complete"
+              phx-value-id={item.id}
+              phx-target={@myself}
+              class="w-10"
+            >
+              <.icon
+                name="hero-check-circle"
+                class={[
+                  "w-7 h-7",
+                  if(item.status == :complete, do: "bg-green-600", else: "bg-gray-300")
+                ]}
+              />
+            </button>
+            <div class={[
+              "flex-auto block text-sm leading-6 text-zinc-900"
+            ]}>
+              <%= item.name %>
             </div>
+            <button type="button" class="w-10 -mt-1 flex none">
+              <.icon name="hero-x-makr" />
+            </button>
           </div>
         </div>
       </div>
