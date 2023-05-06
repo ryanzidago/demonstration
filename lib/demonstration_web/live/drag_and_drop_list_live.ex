@@ -12,7 +12,7 @@ defmodule DemonstrationWeb.DragAndDropListLive do
       %{name: "Beans", id: 2, status: :in_progress},
       %{name: "Almond Milk", id: 3, status: :in_progress},
       %{name: "Bananas", id: 4, status: :in_progress},
-      %{name: "Tofu", id: 5, status: :in_progress}
+      %{name: "Lentils", id: 5, status: :in_progress}
     ]
 
     {:ok, assign(socket, shopping_list: list)}
@@ -43,6 +43,10 @@ defmodule DemonstrationWeb.Components.ListComponent do
 
   @impl true
   def render(assigns) do
+    assigns =
+      assigns
+      |> assign_new(:rename_item, fn -> nil end)
+
     ~H"""
     <div class="bg-gray-100 py-4 rounded-lg">
       <div class="space-y-5 px-4">
@@ -62,54 +66,51 @@ defmodule DemonstrationWeb.Components.ListComponent do
               type="text"
               class="border-none"
             />
-            <%!-- <button class="bg-slate-900 rounded-md text-slate-50">
-              <.icon name="hero-plus" />
-            </button> --%>
           </.form>
         </.header>
 
+          <div phx-hook="DoubleClick" id="double-click">
         <div
           id={"#{@id}-items"}
           phx-hook="Sortable"
-          data-list_id={@id}
           data-drag_class="bg-sky-500"
           data-ghost_class="bg-sky-200"
           class="flex flex-col gap-2"
         >
-          <div
-            :for={item <- @list}
-            id={"#{@id}-#{item.id}"}
-            phx-hook="DoubleClick"
-            data-item_id={item.id}
-            data-phx_event="double_click"
-            phx-target={@myself}
-            class={[
-              "flex rounded-md border-2 border-zinc-200 hover:bg-sky-500 cursor-pointer"
-            ]}
-          >
-            <button
-              type="button"
-              phx-click="mark-as-complete"
-              phx-value-id={item.id}
-              phx-target={@myself}
-              class="w-10"
+            <div
+              :for={item <- @list}
+              id={"#{@id}-#{item.id}"}
+              class={[
+                "flex rounded-md border-2 border-zinc-200 hover:bg-sky-500 cursor-grab"
+              ]}
             >
-              <.icon
-                name="hero-check-circle"
-                class={[
-                  "w-7 h-7",
-                  if(item.status == :complete, do: "bg-green-600", else: "bg-gray-300")
-                ]}
-              />
-            </button>
-            <div class={[
-              "flex-auto block text-sm leading-6 text-zinc-900"
-            ]}>
-              <%= item.name %>
+              <button
+                type="button"
+                phx-click="mark-as-complete"
+                phx-value-id={item.id}
+                phx-target={@myself}
+                class="w-10"
+              >
+                <.icon
+                  name="hero-check-circle"
+                  class={[
+                    "w-7 h-7",
+                    if(item.status == :complete, do: "bg-green-600", else: "bg-gray-300")
+                  ]}
+                />
+              </button>
+              <div data-double_click_item_id={item.id} class={[
+                "flex-auto block text-sm leading-6 text-zinc-900"
+              ]}>
+                <%= if @rename_item == item.id do %>
+                <% else %>
+                  <%= item.name %>
+                <% end %>
+              </div>
+              <button type="button" class="w-10 -mt-1 flex none">
+                <.icon name="hero-x-makr" />
+              </button>
             </div>
-            <button type="button" class="w-10 -mt-1 flex none">
-              <.icon name="hero-x-makr" />
-            </button>
           </div>
         </div>
       </div>
@@ -158,7 +159,8 @@ defmodule DemonstrationWeb.Components.ListComponent do
     {:noreply, socket}
   end
 
-  def handle_event("double_click", %{"id" => _id}, socket) do
+  def handle_event("double_click", %{"id" => id}, socket) do
+    socket = assign(socket, rename_item: id)
     {:noreply, socket}
   end
 
