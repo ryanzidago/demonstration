@@ -23,7 +23,6 @@ defmodule DemonstrationWeb.DragAndDropListLive do
     ~H"""
     <div id="lists" class="">
       <.live_component
-        form={%{"name" => ""}}
         id="shopping-list"
         module={ListComponent}
         list={@shopping_list}
@@ -45,6 +44,8 @@ defmodule DemonstrationWeb.Components.ListComponent do
   def render(assigns) do
     assigns =
       assigns
+      |> assign_new(:form, fn -> to_form(%{"name" => ""}) end)
+      |> assign_new(:rename_form, fn -> to_form(%{"name" => "", "id" => nil}) end)
       |> assign_new(:rename_item, fn -> nil end)
 
     ~H"""
@@ -59,24 +60,18 @@ defmodule DemonstrationWeb.Components.ListComponent do
             phx-submit="submit"
             class="flex flex-row gap-4 items-center "
           >
-            <.input
-              field={@form["name"]}
-              name="name"
-              value={@form["name"]}
-              type="text"
-              class="border-none"
-            />
+            <.input field={@form["name"]} type="text" id="create-item-input" class="border-none" />
           </.form>
         </.header>
 
-          <div phx-hook="DoubleClick" id="double-click">
-        <div
-          id={"#{@id}-items"}
-          phx-hook="Sortable"
-          data-drag_class="bg-sky-500"
-          data-ghost_class="bg-sky-200"
-          class="flex flex-col gap-2"
-        >
+        <div phx-hook="DoubleClick" id="double-click">
+          <div
+            id={"#{@id}-items"}
+            phx-hook="Sortable"
+            data-drag_class="bg-sky-500"
+            data-ghost_class="bg-sky-200"
+            class="flex flex-col gap-2"
+          >
             <div
               :for={item <- @list}
               id={"#{@id}-#{item.id}"}
@@ -86,7 +81,7 @@ defmodule DemonstrationWeb.Components.ListComponent do
             >
               <button
                 type="button"
-                phx-click="mark-as-complete"
+                phx-click="mark_as_complete"
                 phx-value-id={item.id}
                 phx-target={@myself}
                 class="w-10"
@@ -99,10 +94,27 @@ defmodule DemonstrationWeb.Components.ListComponent do
                   ]}
                 />
               </button>
-              <div data-double_click_item_id={item.id} class={[
-                "flex-auto block text-sm leading-6 text-zinc-900"
-              ]}>
+              <div
+                data-double_click_item_id={item.id}
+                class={[
+                  "flex-auto block text-sm leading-6 text-zinc-900"
+                ]}
+              >
                 <%= if @rename_item == item.id do %>
+                  <.form
+                    for={@rename_form}
+                    phx-target={@myself}
+                    phx-submit="rename_submit"
+                    phx-change="rename_change"
+                    class="flex flex-row gap-4 items-center "
+                  >
+                    <.input
+                      field={@rename_form["name"]}
+                      id={"rename-item-input-#{item.id}"}
+                      type="text"
+                    />
+                    <%= Phoenix.HTML.Form.hidden_input(@rename_form, "id", value: item.id) %>
+                  </.form>
                 <% else %>
                   <%= item.name %>
                 <% end %>
@@ -129,7 +141,7 @@ defmodule DemonstrationWeb.Components.ListComponent do
     {:noreply, socket}
   end
 
-  def handle_event("mark-as-complete", %{"id" => id}, socket) do
+  def handle_event("mark_as_complete", %{"id" => id}, socket) do
     socket =
       update(socket, :list, fn list ->
         Enum.map(list, fn item ->
@@ -147,6 +159,7 @@ defmodule DemonstrationWeb.Components.ListComponent do
         [%{name: name, id: id(), status: :in_progress} | list]
       end)
       |> assign(form: %{"name" => ""})
+      |> assign(rename_item: nil)
 
     {:noreply, socket}
   end
@@ -154,13 +167,39 @@ defmodule DemonstrationWeb.Components.ListComponent do
   def handle_event("change", %{"name" => name}, socket) do
     socket =
       socket
-      |> assign(form: %{"name" => name})
+      |> assign(form: to_form(%{"name" => name}))
+
+    {:noreply, socket}
+  end
+
+  def handle_event(
+        "rename_submit",
+        %{"name" => name, "id" => id},
+        socket
+      ) do
+    socket =
+      socket
+      |> update(:list, fn list ->
+        Enum.map(list, fn item ->
+          if to_string(item.id) == id, do: Map.put(item, :name, name), else: item
+        end)
+      end)
+      |> assign(form: %{"name" => ""})
+      |> assign(rename_item: nil)
+
+    {:noreply, socket}
+  end
+
+  def handle_event("rename_change", %{"name" => name, "id" => id} = _params, socket) do
+    socket =
+      socket
+      |> assign(rename_form: to_form(%{"name" => name, "id" => id}))
 
     {:noreply, socket}
   end
 
   def handle_event("double_click", %{"id" => id}, socket) do
-    socket = assign(socket, rename_item: id)
+    socket = assign(socket, rename_item: id, rename_form: to_form(%{"name" => "", "id" => id}))
     {:noreply, socket}
   end
 
