@@ -108,7 +108,7 @@ defmodule DemonstrationWeb.Components.ListComponent do
                     phx-change="rename_change"
                     phx-click-away="hide_rename_form"
                     phx-window-keydown="hide_rename_form"
-                    class="flex flex-row gap-4 items-center cursor-text"
+                    class="flex flex-row gap-4 items-center"
                   >
                     <.input
                       field={@rename_form["name"]}
