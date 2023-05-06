@@ -24,12 +24,13 @@ import topbar from "../vendor/topbar";
 import InfiniteScroll from "./infinite_scroll";
 import CopyToClipboard from "./copy_to_clipboard";
 import LocalTime from "./local_time";
+import Sortable from "./sortable";
 
 let csrfToken = document
   .querySelector("meta[name='csrf-token']")
   .getAttribute("content");
 let liveSocket = new LiveSocket("/live", Socket, {
-  hooks: { InfiniteScroll, CopyToClipboard, LocalTime },
+  hooks: { InfiniteScroll, CopyToClipboard, LocalTime, Sortable },
   params: { _csrf_token: csrfToken },
 });
 
