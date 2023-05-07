@@ -44,9 +44,9 @@ defmodule DemonstrationWeb.Components.ListComponent do
   def render(assigns) do
     assigns =
       assigns
-      |> assign_new(:form, fn -> to_form(%{"name" => ""}) end)
-      |> assign_new(:rename_form, fn -> to_form(%{"name" => "", "id" => nil}) end)
-      |> assign_new(:rename_item, fn -> nil end)
+      |> assign_new(:create_form, fn -> to_form(%{"name" => ""}) end)
+      |> assign_new(:update_form, fn -> to_form(%{"name" => "", "id" => nil}) end)
+      |> assign_new(:update_item_with_id, fn -> nil end)
 
     ~H"""
     <div class="bg-gray-100 py-4 rounded-lg">
@@ -54,13 +54,18 @@ defmodule DemonstrationWeb.Components.ListComponent do
         <.header>
           <%= @list_name %>
           <.form
-            for={@form}
+            for={@create_form}
             phx-target={@myself}
-            phx-change="change"
-            phx-submit="submit"
+            phx-change="create_change"
+            phx-submit="create_submit"
             class="flex flex-row gap-4 items-center "
           >
-            <.input field={@form["name"]} type="text" id="create-item-input" class="border-none" />
+            <.input
+              field={@create_form[:name]}
+              type="text"
+              id="create-item-input"
+              class="border-none"
+            />
           </.form>
         </.header>
 
@@ -100,22 +105,22 @@ defmodule DemonstrationWeb.Components.ListComponent do
                   "flex-auto block text-sm leading-6 text-zinc-900"
                 ]}
               >
-                <%= if @rename_item == item.id do %>
+                <%= if item.id == @update_item_with_id do %>
                   <.form
-                    for={@rename_form}
+                    for={@update_form}
                     phx-target={@myself}
-                    phx-submit="rename_submit"
-                    phx-change="rename_change"
-                    phx-click-away="hide_rename_form"
-                    phx-window-keydown="hide_rename_form"
+                    phx-submit="update_submit"
+                    phx-change="update_change"
+                    phx-click-away="hide_update_form"
+                    phx-window-keydown="hide_update_form"
                     class="flex flex-row gap-4 items-center"
                   >
                     <.input
-                      field={@rename_form["name"]}
+                      field={@update_form[:name]}
                       id={"rename-item-input-#{item.id}"}
                       type="text"
                     />
-                    <%= Phoenix.HTML.Form.hidden_input(@rename_form, "id", value: item.id) %>
+                    <%= Phoenix.HTML.Form.hidden_input(@update_form, "id", value: item.id) %>
                   </.form>
                 <% else %>
                   <%= item.name %>
@@ -154,28 +159,27 @@ defmodule DemonstrationWeb.Components.ListComponent do
     {:noreply, socket}
   end
 
-  def handle_event("submit", _, %{assigns: %{form: %{"name" => name}}} = socket) do
+  def handle_event("create_submit", %{"name" => name}, socket) do
     socket =
       socket
       |> update(:list, fn list ->
         [%{name: name, id: id(), status: :in_progress} | list]
       end)
-      |> assign(form: %{"name" => ""})
-      |> assign(rename_item: nil)
+      |> assign(create_form: to_form(%{"name" => ""}))
 
     {:noreply, socket}
   end
 
-  def handle_event("change", %{"name" => name}, socket) do
+  def handle_event("create_change", %{"name" => name}, socket) do
     socket =
       socket
-      |> assign(form: to_form(%{"name" => name}))
+      |> assign(create_form: to_form(%{"name" => name}))
 
     {:noreply, socket}
   end
 
   def handle_event(
-        "rename_submit",
+        "update_submit",
         %{"name" => name, "id" => id},
         socket
       ) do
@@ -186,34 +190,40 @@ defmodule DemonstrationWeb.Components.ListComponent do
           if to_string(item.id) == id, do: Map.put(item, :name, name), else: item
         end)
       end)
-      |> assign(form: %{"name" => ""})
-      |> assign(rename_item: nil)
+      |> assign(update_form: to_form(%{"name" => ""}))
+      |> assign(update_item_with_id: nil)
 
     {:noreply, socket}
   end
 
-  def handle_event("rename_change", %{"name" => name, "id" => id} = _params, socket) do
+  def handle_event("update_change", %{"name" => name, "id" => id} = _params, socket) do
     socket =
       socket
-      |> assign(rename_form: to_form(%{"name" => name, "id" => id}))
+      |> assign(update_form: to_form(%{"name" => name, "id" => id}))
 
     {:noreply, socket}
   end
 
   def handle_event("double_click", %{"id" => id}, socket) do
-    socket = assign(socket, rename_item: id, rename_form: to_form(%{"name" => "", "id" => id}))
+    socket =
+      assign(socket, update_item_with_id: id, update_form: to_form(%{"name" => "", "id" => id}))
+
     {:noreply, socket}
   end
 
-  def handle_event("hide_rename_form", %{"key" => "Escape"}, socket) do
-    socket = assign(socket, rename_item: nil, rename_form: to_form(%{"name" => "", "id" => ""}))
+  def handle_event("hide_update_form", %{"key" => "Escape"}, socket) do
+    socket =
+      assign(socket, update_item_with_id: nil, update_form: to_form(%{"name" => "", "id" => ""}))
+
     {:noreply, socket}
   end
 
-  def handle_event("hide_rename_form", %{"key" => _key}, socket), do: {:noreply, socket}
+  def handle_event("hide_update_form", %{"key" => _key}, socket), do: {:noreply, socket}
 
-  def handle_event("hide_rename_form", _params, socket) do
-    socket = assign(socket, rename_item: nil, rename_form: to_form(%{"name" => "", "id" => ""}))
+  def handle_event("hide_update_form", _params, socket) do
+    socket =
+      assign(socket, update_item_with_id: nil, update_form: to_form(%{"name" => "", "id" => ""}))
+
     {:noreply, socket}
   end
 
