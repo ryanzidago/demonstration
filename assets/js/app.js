@@ -26,12 +26,20 @@ import CopyToClipboard from "./copy_to_clipboard";
 import LocalTime from "./local_time";
 import Sortable from "./sortable";
 import DoubleClick from "./double_click";
+import DoughnutChart from "./doughnut_chart";
 
 let csrfToken = document
   .querySelector("meta[name='csrf-token']")
   .getAttribute("content");
 let liveSocket = new LiveSocket("/live", Socket, {
-  hooks: { InfiniteScroll, CopyToClipboard, LocalTime, Sortable, DoubleClick },
+  hooks: {
+    InfiniteScroll,
+    CopyToClipboard,
+    LocalTime,
+    Sortable,
+    DoubleClick,
+    DoughnutChart,
+  },
   params: { _csrf_token: csrfToken },
 });
 

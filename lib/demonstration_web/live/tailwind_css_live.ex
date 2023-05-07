@@ -5,7 +5,7 @@ defmodule DemonstrationWeb.TailwindCSSLive do
   use DemonstrationWeb, :live_view
   alias DemonstrationWeb.Components.ListComponent
 
-  @components ~w(list_1 table_1 form_1 button_1 fieldset_1 drag_and_drop_list_1)
+  @components ~w(list_1 table_1 form_1 button_1 fieldset_1 drag_and_drop_list_1 doughnut_chart_1)
 
   @impl true
   def mount(_params, _session, socket) do
@@ -41,6 +41,7 @@ defmodule DemonstrationWeb.TailwindCSSLive do
         <.button_1 :if={@component == "button_1"} />
         <.fieldset_1 :if={@component == "fieldset_1"} />
         <.drag_and_drop_list_1 :if={@component == "drag_and_drop_list_1"} />
+        <.doughnut_chart_1 :if={@component == "doughnut_chart_1"} />
       </div>
       <button
         phx-click="next"
@@ -327,4 +328,43 @@ defmodule DemonstrationWeb.TailwindCSSLive do
     />
     """
   end
+
+  defp doughnut_chart_1(assigns) do
+    chart_data = %{
+      completed: %{label: "Completed", colour: "hsl(220, 95%, 30%)", value: 35},
+      assigned: %{label: "Assigned", colour: "hsl(220, 65%, 60%)", value: 40},
+      due: %{label: "Due", colour: "hsl(220, 70%, 80%)", value: 25}
+    }
+
+    assigns = assign(assigns, chart_data: chart_data)
+
+    ~H"""
+    <div class="bg-slate-50 rounded-md p-4 w-ful">
+      <div class="flex flex-row space-x-10 items-end drop-shadow-sm">
+        <.doughnut_chart_legend chart_data={@chart_data} />
+        <div>
+          <canvas class="h-20 w-20" id="doughnut-chart" phx-hook="DoughnutChart" />
+        </div>
+      </div>
+    </div>
+    """
+  end
+
+  defp doughnut_chart_legend(assigns) do
+    ~H"""
+    <legend class="flex flex-col gap-2">
+      <p class="font-semibold text-slate-800">Tasks</p>
+      <div :for={data <- Map.values(@chart_data)} class="flex flex-row items-center gap-2">
+        <div class="bg-sky-400 rounded-full h-4 w-4" />
+        <p class="text-sm text-slate-700">
+          <%= data.label %> <span class="font-semibold">(<%= data.value %>%)</span>
+        </p>
+      </div>
+    </legend>
+    """
+  end
+
+  defp to_hex("hsl(220, 95%, 30%)"), do: "#043495"
+  defp to_hex("hsl(220, 65%, 60%)"), do: "#5783db"
+  defp to_hex("hsl(220, 70%, 80%)"), do: "#a8c0f0"
 end
