@@ -330,16 +330,16 @@ defmodule DemonstrationWeb.TailwindCSSLive do
   end
 
   defp doughnut_chart_1(assigns) do
-    chart_data = %{
-      completed: %{label: "Completed", colour: "hsl(220, 95%, 30%)", value: 35},
-      assigned: %{label: "Assigned", colour: "hsl(220, 65%, 60%)", value: 40},
-      due: %{label: "Due", colour: "hsl(220, 70%, 80%)", value: 25}
-    }
+    chart_data = [
+      %{label: "Completed", colour: "hsl(220,95%,30%)", value: 35},
+      %{label: "Assigned", colour: "hsl(220,65%,60%)", value: 40},
+      %{label: "Due", colour: "hsl(220,70%,80%)", value: 25}
+    ]
 
     assigns = assign(assigns, chart_data: chart_data)
 
     ~H"""
-    <div class="bg-slate-50 rounded-md p-4 w-ful">
+    <div class="bg-slate-50 rounded-md p-8 w-ful">
       <div class="flex flex-row space-x-10 items-end drop-shadow-sm">
         <.doughnut_chart_legend chart_data={@chart_data} />
         <div>
@@ -354,8 +354,8 @@ defmodule DemonstrationWeb.TailwindCSSLive do
     ~H"""
     <legend class="flex flex-col gap-2">
       <p class="font-semibold text-slate-800">Tasks</p>
-      <div :for={data <- Map.values(@chart_data)} class="flex flex-row items-center gap-2">
-        <div class="bg-sky-400 rounded-full h-4 w-4" />
+      <div :for={data <- @chart_data} class="flex flex-row items-center gap-2">
+        <div class={"#{background_colour(data.colour)} rounded-full h-4 w-4"} />
         <p class="text-sm text-slate-700">
           <%= data.label %> <span class="font-semibold">(<%= data.value %>%)</span>
         </p>
@@ -364,7 +364,7 @@ defmodule DemonstrationWeb.TailwindCSSLive do
     """
   end
 
-  defp to_hex("hsl(220, 95%, 30%)"), do: "#043495"
-  defp to_hex("hsl(220, 65%, 60%)"), do: "#5783db"
-  defp to_hex("hsl(220, 70%, 80%)"), do: "#a8c0f0"
+  defp background_colour("hsl(220,95%,30%)"), do: "bg-[#043495]"
+  defp background_colour("hsl(220,65%,60%)"), do: "bg-[#5783db]"
+  defp background_colour("hsl(220,70%,80%)"), do: "bg-[#a8c0f0]"
 end
