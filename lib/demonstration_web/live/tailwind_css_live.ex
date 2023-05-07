@@ -3,8 +3,9 @@ defmodule DemonstrationWeb.TailwindCSSLive do
 
   """
   use DemonstrationWeb, :live_view
+  alias DemonstrationWeb.Components.ListComponent
 
-  @components ~w(list_1 table_1 form_1 button_1 fieldset_1)
+  @components ~w(list_1 table_1 form_1 button_1 fieldset_1 drag_and_drop_list_1)
 
   @impl true
   def mount(_params, _session, socket) do
@@ -39,6 +40,7 @@ defmodule DemonstrationWeb.TailwindCSSLive do
         <.form_1 :if={@component == "form_1"} />
         <.button_1 :if={@component == "button_1"} />
         <.fieldset_1 :if={@component == "fieldset_1"} />
+        <.drag_and_drop_list_1 :if={@component == "drag_and_drop_list_1"} />
       </div>
       <button
         phx-click="next"
@@ -301,6 +303,28 @@ defmodule DemonstrationWeb.TailwindCSSLive do
         </label>
       </fieldset>
     </div>
+    """
+  end
+
+  defp drag_and_drop_list_1(assigns) do
+    assigns =
+      assign(assigns,
+        shopping_list: [
+          %{name: "Bread", id: 1, status: :in_progress},
+          %{name: "Beans", id: 2, status: :in_progress},
+          %{name: "Almond Milk", id: 3, status: :in_progress},
+          %{name: "Bananas", id: 4, status: :in_progress},
+          %{name: "Lentils", id: 5, status: :in_progress}
+        ]
+      )
+
+    ~H"""
+    <.live_component
+      id="shopping-list"
+      module={ListComponent}
+      list={@shopping_list}
+      list_name="Shopping List"
+    />
     """
   end
 end

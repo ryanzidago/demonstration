@@ -1,41 +1,7 @@
-defmodule DemonstrationWeb.DragAndDropListLive do
+defmodule DemonstrationWeb.Components.ListComponent do
   @doc """
   https://fly.io/phoenix-files/liveview-drag-and-drop/
   """
-  use DemonstrationWeb, :live_view
-  alias DemonstrationWeb.Components.ListComponent
-
-  @impl true
-  def mount(_params, _session, socket) do
-    list = [
-      %{name: "Bread", id: 1, status: :in_progress},
-      %{name: "Beans", id: 2, status: :in_progress},
-      %{name: "Almond Milk", id: 3, status: :in_progress},
-      %{name: "Bananas", id: 4, status: :in_progress},
-      %{name: "Lentils", id: 5, status: :in_progress}
-    ]
-
-    {:ok, assign(socket, shopping_list: list)}
-  end
-
-  @impl true
-  def render(assigns) do
-    ~H"""
-    <div id="lists" class="">
-      <.live_component
-        id="shopping-list"
-        module={ListComponent}
-        list={@shopping_list}
-        list_name="Shopping List"
-      />
-    </div>
-    """
-  end
-
-  def id, do: Enum.random(0..1_000_000)
-end
-
-defmodule DemonstrationWeb.Components.ListComponent do
   use DemonstrationWeb, :live_component
 
   import DemonstrationWeb.CoreComponents
@@ -121,7 +87,7 @@ defmodule DemonstrationWeb.Components.ListComponent do
                       field={@update_form[:name]}
                       id={"rename-item-input-#{item.id}"}
                       type="text"
-                      class="border-none rounded-md drop-shadow-sm focus:ring-2 focus:ring-sky-400 h-6 text-sm"
+                      class="border-none rounded-md drop-shadow-sm focus:ring-2 focus:ring-sky-400 h-6 text-sm w-40"
                     />
                     <%= Phoenix.HTML.Form.hidden_input(@update_form, "id", value: item.id) %>
                   </.form>
