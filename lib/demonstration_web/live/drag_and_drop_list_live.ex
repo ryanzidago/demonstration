@@ -52,7 +52,9 @@ defmodule DemonstrationWeb.Components.ListComponent do
     <div class="bg-gray-100 py-4 rounded-lg">
       <div class="space-y-5 px-4">
         <.header>
-          <%= @list_name %>
+          <div class="drop-shadow-sm">
+            <%= @list_name %>
+          </div>
           <.form
             for={@create_form}
             phx-target={@myself}
@@ -64,7 +66,7 @@ defmodule DemonstrationWeb.Components.ListComponent do
               field={@create_form[:name]}
               type="text"
               id="create-item-input"
-              class="border-none"
+              class="border-none rounded-md drop-shadow-sm focus:ring-2 focus:ring-sky-400 mt-2"
             />
           </.form>
         </.header>
@@ -102,7 +104,7 @@ defmodule DemonstrationWeb.Components.ListComponent do
               <div
                 data-double_click_item_id={item.id}
                 class={[
-                  "flex-auto block text-sm leading-6 text-zinc-900"
+                  " block text-sm leading-6 text-zinc-900 py-2"
                 ]}
               >
                 <%= if item.id == @update_item_with_id do %>
@@ -119,6 +121,7 @@ defmodule DemonstrationWeb.Components.ListComponent do
                       field={@update_form[:name]}
                       id={"rename-item-input-#{item.id}"}
                       type="text"
+                      class="border-none rounded-md drop-shadow-sm focus:ring-2 focus:ring-sky-400 h-6 text-sm"
                     />
                     <%= Phoenix.HTML.Form.hidden_input(@update_form, "id", value: item.id) %>
                   </.form>
