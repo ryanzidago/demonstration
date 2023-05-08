@@ -352,9 +352,12 @@ defmodule DemonstrationWeb.TailwindCSSLive do
 
   defp doughnut_chart_legend(assigns) do
     ~H"""
-    <legend class="flex flex-col gap-2">
+    <legend id="doughnut-chart-legend" class="flex flex-col gap-2">
       <p class="font-semibold text-slate-800">Tasks</p>
-      <div :for={data <- @chart_data} class="flex flex-row items-center gap-2">
+      <div
+        :for={data <- @chart_data}
+        class="flex flex-row items-center gap-2 hover:scale-105 duration-300"
+      >
         <div class={"#{background_colour(data.colour)} rounded-full h-4 w-4"} />
         <p class="text-sm text-slate-700">
           <%= data.label %> <span class="font-semibold">(<%= data.value %>%)</span>
