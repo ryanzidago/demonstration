@@ -1,4 +1,4 @@
-import { Chart, registerables } from "chart.js";
+import { Chart, LogarithmicScale, registerables } from "chart.js";
 Chart.register(...registerables);
 
 export default LineChart = {
@@ -30,12 +30,16 @@ class Line {
       type: "line",
       data: data,
       options: {
+        aspectRatio: 8,
         scales: {
           x: {
             display: false,
           },
           y: {
-            display: false,
+            ticks: {
+              display: false,
+            },
+            display: true,
           },
         },
         responsive: true,
@@ -52,18 +56,4 @@ class Line {
 
     this.chart = new Chart(ctx, config);
   }
-}
-
-function triggerHover(chart, index) {
-  if (chart.getActiveElements().length > 0) {
-    chart.setActiveElements([]);
-  } else {
-    chart.setActiveElements([
-      {
-        datasetIndex: 0,
-        index: index,
-      },
-    ]);
-  }
-  chart.update();
 }
