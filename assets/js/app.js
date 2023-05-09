@@ -27,6 +27,7 @@ import LocalTime from "./local_time";
 import Sortable from "./sortable";
 import DoubleClick from "./double_click";
 import DoughnutChart from "./doughnut_chart";
+import LineChart from "./line_chart";
 
 let csrfToken = document
   .querySelector("meta[name='csrf-token']")
@@ -39,6 +40,7 @@ let liveSocket = new LiveSocket("/live", Socket, {
     Sortable,
     DoubleClick,
     DoughnutChart,
+    LineChart,
   },
   params: { _csrf_token: csrfToken },
 });

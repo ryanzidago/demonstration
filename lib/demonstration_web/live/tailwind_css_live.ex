@@ -5,7 +5,7 @@ defmodule DemonstrationWeb.TailwindCSSLive do
   use DemonstrationWeb, :live_view
   alias DemonstrationWeb.Components.ListComponent
 
-  @components ~w(list_1 table_1 form_1 button_1 fieldset_1 drag_and_drop_list_1 doughnut_chart_1)
+  @components ~w(list_1 table_1 form_1 button_1 fieldset_1 drag_and_drop_list_1 doughnut_chart_1 line_chart_1)
 
   @impl true
   def mount(_params, _session, socket) do
@@ -42,6 +42,7 @@ defmodule DemonstrationWeb.TailwindCSSLive do
         <.fieldset_1 :if={@component == "fieldset_1"} />
         <.drag_and_drop_list_1 :if={@component == "drag_and_drop_list_1"} />
         <.doughnut_chart_1 :if={@component == "doughnut_chart_1"} />
+        <.line_chart_1 :if={@component == "line_chart_1"} />
       </div>
       <button
         phx-click="next"
@@ -370,4 +371,21 @@ defmodule DemonstrationWeb.TailwindCSSLive do
   defp background_colour("hsl(220,95%,30%)"), do: "bg-[#043495]"
   defp background_colour("hsl(220,65%,60%)"), do: "bg-[#5783db]"
   defp background_colour("hsl(220,70%,80%)"), do: "bg-[#a8c0f0]"
+
+  defp line_chart_1(assigns) do
+    ~H"""
+    <div class="bg-slate-50 rounded-md p-8 w-full">
+      <div class="flex flex-row items-center justify-between">
+        <legend>
+          <p class="font-semibold text-slate-500">Monthly Revenue</p>
+        </legend>
+        <div class="rounded-full border-2 border-emerald-500 bg-emerald-100 px-3 text-center text-slate-600">
+          1.4%
+        </div>
+      </div>
+      <p class="font-semibold text-slate-600 text-2xl">$103K</p>
+      <canvas id="line-chart" class="" phx-hook="LineChart" />
+    </div>
+    """
+  end
 end
