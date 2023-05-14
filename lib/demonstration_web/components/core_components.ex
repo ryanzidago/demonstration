@@ -213,11 +213,13 @@ defmodule DemonstrationWeb.CoreComponents do
     ~H"""
     <button
       type={@type}
-      class={[
-        "phx-submit-loading:opacity-75 rounded-lg bg-zinc-900 hover:bg-zinc-700 py-2 px-3",
-        "text-sm font-semibold leading-6 text-white active:text-white/80",
-        @class
-      ]}
+      class={
+        @class ||
+          [
+            "phx-submit-loading:opacity-75 rounded-lg bg-zinc-900 hover:bg-zinc-700 py-2 px-3",
+            "text-sm font-semibold leading-6 text-white active:text-white/80"
+          ]
+      }
       {@rest}
     >
       <%= render_slot(@inner_block) %>

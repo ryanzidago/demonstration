@@ -3,10 +3,12 @@ defmodule DemonstrationWeb.TailwindCSSLive do
 
   """
   use DemonstrationWeb, :live_view
+
   alias DemonstrationWeb.Components.ListComponent
   alias DemonstrationWeb.Components.FileUploader
+  alias DemonstrationWeb.Components.Range
 
-  @components ~w(list_1 table_1 form_1 button_1 fieldset_1 drag_and_drop_list_1 doughnut_chart_1 line_chart_1 file_uploader_1)
+  @components ~w(list_1 table_1 form_1 button_1 fieldset_1 drag_and_drop_list_1 doughnut_chart_1 line_chart_1 file_uploader_1 range_1)
 
   @impl true
   def mount(_params, _session, socket) do
@@ -45,6 +47,7 @@ defmodule DemonstrationWeb.TailwindCSSLive do
         <.doughnut_chart_1 :if={@component == "doughnut_chart_1"} />
         <.line_chart_1 :if={@component == "line_chart_1"} />
         <.file_uploader_1 :if={@component == "file_uploader_1"} />
+        <.range_1 :if={@component == "range_1"} />
       </div>
       <button
         phx-click="next"
@@ -394,6 +397,12 @@ defmodule DemonstrationWeb.TailwindCSSLive do
   defp file_uploader_1(assigns) do
     ~H"""
     <.live_component id="file-uploader-1" module={FileUploader} />
+    """
+  end
+
+  defp range_1(assigns) do
+    ~H"""
+    <.live_component id="range-1" module={Range} />
     """
   end
 end
