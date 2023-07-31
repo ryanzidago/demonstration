@@ -9,7 +9,7 @@ defmodule DemonstrationWeb.TailwindCSSLive do
   alias DemonstrationWeb.Components.Range
   alias DemonstrationWeb.Components.SelectableCards
 
-  @components ~w(list_1 table_1 form_1 button_1 fieldset_1 drag_and_drop_list_1 doughnut_chart_1 line_chart_1 file_uploader_1 range_1 selectable_cards_1)
+  @components ~w(list_1 table_1 form_1 button_1 fieldset_1 drag_and_drop_list_1 doughnut_chart_1 line_chart_1 file_uploader_1 range_1 selectable_cards_1 signup_form_1 card_1)
 
   @impl true
   def mount(_params, _session, socket) do
@@ -50,6 +50,8 @@ defmodule DemonstrationWeb.TailwindCSSLive do
         <.file_uploader_1 :if={@component == "file_uploader_1"} />
         <.range_1 :if={@component == "range_1"} />
         <.selectable_cards_1 :if={@component == "selectable_cards_1"} />
+        <.signup_form_1 :if={@component == "signup_form_1"} />
+        <.card_1 :if={@component == "card_1"} />
       </div>
       <button
         phx-click="next"
@@ -413,4 +415,11 @@ defmodule DemonstrationWeb.TailwindCSSLive do
     <.live_component id="selectable-cards-1" module={SelectableCards} />
     """
   end
+
+  defp signup_form_1(assigns) do
+    ~H"""
+
+    """
+  end
+
 end
